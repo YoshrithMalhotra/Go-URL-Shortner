@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"url-shortener/internal/models"
 	"url-shortener/internal/service"
@@ -49,17 +50,20 @@ func ShortenHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func RedirectHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet{
+
+	if r.Method != http.MethodGet {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
-	shortURL := r.URL.Path()
+	shortCode := strings.TrimPrefix(r.URL.Path, "/")
 
-	url, exists := storage.Get(shortURL)
+	url, exists := storage.Get(shortCode)
+
 	if !exists {
 		http.Error(w, "URL not found", http.StatusNotFound)
 		return
 	}
-	http.Redirect(w, r, url.OriginalURL, http.StatusMovedPermanently)
+
+	http.Redirect(w, r, url.OriginalURL, http.StatusFound)
 }
