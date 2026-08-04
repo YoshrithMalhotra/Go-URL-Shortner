@@ -36,17 +36,7 @@ func ShortenHandler(w http.ResponseWriter, r *http.Request) {
 
 	shortCode := service.GenerateShortCode()
 
-	url := models.URL{
-		OriginalURL: req.URL,
-		ShortCode:   shortCode,
-	}
-
-	storage.Save(url)
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-
-	json.NewEncoder(w).Encode(url)
+	
 }
 
 func RedirectHandler(w http.ResponseWriter, r *http.Request) {
