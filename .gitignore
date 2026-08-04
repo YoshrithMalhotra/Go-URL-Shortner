@@ -1,0 +1,16 @@
+.DS_Store
+
+# Go build outputs
+bin/
+*.exe
+*.test
+*.out
+coverage.out
+
+# Local environment files
+.env
+.env.*
+
+# Editor and workspace settings
+.vscode/
+.idea/
