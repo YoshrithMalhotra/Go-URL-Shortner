@@ -10,6 +10,7 @@ import (
 func main() {
 
 	http.HandleFunc("/shorten", handlers.ShortenHandler)
+	http.HandleFunc("/", handlers.RedirectHandler)
 
 	log.Println("🚀 Server running on http://localhost:8080")
 
