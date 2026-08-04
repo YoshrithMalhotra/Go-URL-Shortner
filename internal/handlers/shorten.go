@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"strings"
 
-	"url-shortener/internal/models"
 	"url-shortener/internal/service"
 	"url-shortener/internal/storage"
 )
@@ -34,14 +33,11 @@ func ShortenHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	shortCode := service.GenerateShortCode()
-
-	url := models.URL{
-		OriginalURL: req.URL,
-		ShortCode:   shortCode,
+	url, err := service.CreateShortURL(req.URL)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
-
-	storage.Save(url)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
