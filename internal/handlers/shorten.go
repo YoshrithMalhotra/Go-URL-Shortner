@@ -47,3 +47,19 @@ func ShortenHandler(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(url)
 }
+
+func RedirectHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet{
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	shortURL := r.URL.Path()
+
+	url, exists := storage.Get(shortURL)
+	if !exists {
+		http.Error(w, "URL not found", http.StatusNotFound)
+		return
+	}
+	http.Redirect(w, r, url.OriginalURL, http.StatusMovedPermanently)
+}
