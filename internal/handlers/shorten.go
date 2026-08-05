@@ -54,12 +54,11 @@ func RedirectHandler(w http.ResponseWriter, r *http.Request) {
 
 	shortCode := strings.TrimPrefix(r.URL.Path, "/")
 
-	url, exists := storage.Get(shortCode)
+	url, err := storage.Get(shortCode)
 
-	if !exists {
+	if err != nil {
 		http.Error(w, "URL not found", http.StatusNotFound)
 		return
 	}
-
 	http.Redirect(w, r, url.OriginalURL, http.StatusFound)
 }

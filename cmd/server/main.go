@@ -5,14 +5,14 @@ import (
 	"net/http"
 
 	"url-shortener/internal/handlers"
+	"url-shortener/internal/storage"
 )
 
 func main() {
+    storage.Connect()
 
-	http.HandleFunc("/shorten", handlers.ShortenHandler)
-	http.HandleFunc("/", handlers.RedirectHandler)
+    http.HandleFunc("/shorten", handlers.ShortenHandler)
+    http.HandleFunc("/", handlers.RedirectHandler)
 
-	log.Println("🚀 Server running on http://localhost:8080")
-
-	log.Fatal(http.ListenAndServe(":8080", nil))
+    log.Fatal(http.ListenAndServe(":8080", nil))
 }

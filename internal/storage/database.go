@@ -11,8 +11,7 @@ var DB *sql.DB
 
 func Connect() {
 
-	connStr := "postgres://postgres:password@localhost:5432/urlshortener"
-
+	connStr := "postgres://postgres:postgres@localhost:5433/urlshortener?sslmode=disable"
 	var err error
 
 	DB, err = sql.Open("pgx", connStr)
