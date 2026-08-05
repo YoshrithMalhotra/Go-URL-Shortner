@@ -24,7 +24,14 @@ func CreateShortURL(originalURL string) (models.URL, error) {
 		ShortCode:   shortCode,
 	}
 
-	storage.Save(url)
+	err := storage.Save(url)
+	if err != nil {
+		return models.URL{}, err
+	}
 
 	return url, nil
+}
+
+func GetOriginalURL(shortCode string) (models.URL, error) {
+	return storage.Get(shortCode)
 }

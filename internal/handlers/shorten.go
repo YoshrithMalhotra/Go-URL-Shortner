@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"url-shortener/internal/service"
-	"url-shortener/internal/storage"
 )
 
 type ShortenRequest struct {
@@ -54,7 +53,7 @@ func RedirectHandler(w http.ResponseWriter, r *http.Request) {
 
 	shortCode := strings.TrimPrefix(r.URL.Path, "/")
 
-	url, err := storage.Get(shortCode)
+	url, err := service.GetOriginalURL(shortCode)
 
 	if err != nil {
 		http.Error(w, "URL not found", http.StatusNotFound)
