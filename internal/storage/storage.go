@@ -2,7 +2,6 @@ package storage
 
 import "url-shortener/internal/models"
 
-var urls = make(map[string]models.URL)
 
 func Save(url models.URL) error {
 	_, err := DB.Exec("INSERT INTO urls (original_url, short_code) VALUES ($1, $2)", url.OriginalURL, url.ShortCode)
